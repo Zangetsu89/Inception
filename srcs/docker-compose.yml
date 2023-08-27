@@ -1,0 +1,58 @@
+version: '3'
+services:
+  nginx:
+    build: requirements/nginx/
+    container_name: nginx
+    ports:
+      - "82:82"
+      - "443:443"
+    restart: always
+    volumes:
+      - "~/Desktop/inception/website:/var/www/html"
+    depends_on:
+      - wordpress
+    networks:
+      - matrix
+
+  wordpress:
+    build: requirements/wordpress/
+    ports:
+      - "9000:9000"
+    container_name: wordpress
+    env_file: .env
+    volumes:
+      - "~/Desktop/inception/website:/var/www/html"
+    environment:
+      MYSQL_ROOT_PWD: "${MYSQL_ROOT_PWD}"
+      WP_DB_NAME: "${WP_DB_NAME}"
+      WP_DB_USER: "${WP_DB_USER}"
+      WP_DB_PWD: "${WP_DB_PWD}"
+      MYSQL_DB: "${MYSQL_DB}"
+      MYSQL_USER: "${MYSQL_PWD}"
+      MYSQL_PWD: "${MYSQL_USER}"
+      MYSQL_HOSTNAME: "${MYSQL_HOSTNAME}"
+    networks:
+      - matrix
+    depends_on:
+      - mariadb
+    
+  mariadb:
+    build: requirements/mariadb/
+    container_name: mariadb
+    env_file: .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - "~/Desktop/inception/mariadb:/var/lib/mysql"
+    networks:
+      - matrix
+    restart: always
+    environment:
+      MYSQL_ROOT_PWD: ${MYSQL_ROOT_PWD}
+      WP_DB_NAME: ${WP_DB_NAME}
+      WP_DB_USER:  ${WP_DB_USER}
+      WP_DB_PWD:  ${WP_DB_PWD}
+
+networks:
+  matrix:
+    # driver: bridge
