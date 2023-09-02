@@ -1,7 +1,11 @@
 FROM ubuntu:20.04
 
+ARG ARG_DOMAIN
+ARG ARG_USER
+
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y nginx openssl && \
+	chown -R www-data:www-data /var/www/html && \
     rm -rf /var/lib/apt/lists/*
 
 # nginx SSL
@@ -16,4 +20,5 @@ RUN mkdir -p /run/nginx
 COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Start nginx
+
 CMD ["nginx", "-g", "daemon off;"]
