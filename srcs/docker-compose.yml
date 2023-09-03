@@ -23,19 +23,18 @@ services:
     ports:
       - "9000:9000"
     container_name: wordpress
-    image: srcs/wordpress
     env_file: .env
     volumes:
       - "~/Desktop/inception/website:/var/www/html"
     environment:
-      MYSQL_ROOT_PWD: "${MYSQL_ROOT_PWD}"
-      WP_DB_NAME: "${WP_DB_NAME}"
-      WP_DB_USER: "${WP_DB_USER}"
-      WP_DB_PWD: "${WP_DB_PWD}"
-      MYSQL_DB: "${MYSQL_DB}"
-      MYSQL_USER: "${MYSQL_USER}"
-      MYSQL_PWD: "${MYSQL_PWD}"
-      MYSQL_HOSTNAME: "${MYSQL_HOSTNAME}"
+      MYSQL_ROOT_PWD: ${MYSQL_ROOT_PWD}
+      WP_DB_NAME: ${WP_DB_NAME}
+      WP_DB_USER: ${WP_DB_USER}
+      WP_DB_PWD: ${WP_DB_PWD}
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PWD: ${MYSQL_PWD}
+      MYSQL_HOSTNAME: ${MYSQL_HOSTNAME}
     networks:
       - matrix
     depends_on:
@@ -44,7 +43,6 @@ services:
   mariadb:
     build: requirements/mariadb/
     container_name: mariadb
-    image: srcs/mariadb
     env_file: .env
     ports:
       - "3307:3307"
